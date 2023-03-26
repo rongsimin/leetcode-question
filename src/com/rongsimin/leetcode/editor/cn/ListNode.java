@@ -1,8 +1,8 @@
 package com.rongsimin.leetcode.editor.cn;
 
 /**
- * @author : rsm
- * @date : 2023/3/26 12:00
+ * @author rsm
+ * @date 2023/3/26 12:00
  */
 public class ListNode {
     public int val;
