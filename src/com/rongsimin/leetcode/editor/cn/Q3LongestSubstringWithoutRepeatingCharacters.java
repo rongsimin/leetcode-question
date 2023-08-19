@@ -1,4 +1,4 @@
-  //给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。 
+//给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
 //
 // 
 //
@@ -38,31 +38,56 @@
 //
 // Related Topics 哈希表 字符串 滑动窗口 👍 8947 👎 0
 
-  
-  package com.rongsimin.leetcode.editor.cn;
-  
-  /**
-    * 3.无重复字符的最长子串
-    *
-    * @author rsm
-    * @date 2023-03-26 12:50:04
-    */
-  public class Q3LongestSubstringWithoutRepeatingCharacters{
-      public static void main(String[] args) {
-           Solution solution = new Q3LongestSubstringWithoutRepeatingCharacters().new Solution();
-      }
-      /**
-        * 3.无重复字符的最长子串
-        *
-        * @author rsm
-        * @date 2023-03-26 12:50:04
-        */
-      //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        return 0;
+
+package com.rongsimin.leetcode.editor.cn;
+
+/**
+ * 3.无重复字符的最长子串
+ *
+ * @author rsm
+ * @date 2023-03-26 12:50:04
+ */
+public class Q3LongestSubstringWithoutRepeatingCharacters {
+    public static void main(String[] args) {
+        Solution solution = new Q3LongestSubstringWithoutRepeatingCharacters().new Solution();
+        int[] freq = new int[256];
+        System.out.println(freq['a']);
+        System.out.println(freq['A']);
+        System.out.println(freq[' ']);
+        System.out.println(freq['1']);
+        System.out.println(solution.lengthOfLongestSubstring("abcabcbb"));
     }
-}
+
+    /**
+     * 3.无重复字符的最长子串
+     *
+     * @author rsm
+     * @date 2023-03-26 12:50:04
+     */
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int lengthOfLongestSubstring(String s) {
+            if (s.length() == 0) {
+                return 0;
+            }
+            // [left,right] 区间内无重复字符
+            int[] freq = new int[256];
+            int left = 0;
+            int right = -1;
+            int minLen = Integer.MIN_VALUE;
+            while (left < s.length()) {
+                if (right + 1 < s.length() && freq[s.charAt(right + 1)] == 0) {
+                    right++;
+                    freq[s.charAt(right)] = 1;
+                    minLen = Math.max(minLen, right  - left + 1);
+                } else {
+                    freq[s.charAt(left)]--;
+                    left++;
+                }
+            }
+            return minLen == Integer.MIN_VALUE ? 0 : minLen;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
-  }
+}
