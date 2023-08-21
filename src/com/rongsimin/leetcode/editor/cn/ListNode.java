@@ -12,6 +12,11 @@ public class ListNode {
         val = x;
     }
 
+    public ListNode(int x, ListNode next) {
+        this.val = x;
+        this.next = next;
+    }
+
     /**
      * 根据n个元素的数组arr创建一个链表
      * 使用arr为参数，创建另外一个ListNode的构造函数
