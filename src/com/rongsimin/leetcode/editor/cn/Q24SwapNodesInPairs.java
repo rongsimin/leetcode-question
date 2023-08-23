@@ -52,6 +52,7 @@
   public class Q24SwapNodesInPairs{
       public static void main(String[] args) {
            Solution solution = new Q24SwapNodesInPairs().new Solution();
+          System.out.println(solution.swapPairs(new ListNode(new int[]{1, 2, 3, 4, 5})));
       }
       
       //leetcode submit region begin(Prohibit modification and deletion)
@@ -67,7 +68,30 @@
  */
 class Solution {
     public ListNode swapPairs(ListNode head) {
-        return null;
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode dummyNode = new ListNode(-1);
+        ListNode preNode = dummyNode;
+        ListNode firstNode = head;
+        ListNode secondNode = head.next;
+        while (firstNode != null && secondNode != null) {
+            ListNode secondNext = secondNode.next;
+            secondNode.next = firstNode;
+            firstNode.next = secondNext;
+            preNode.next = secondNode;
+            preNode = firstNode;
+            firstNode = firstNode.next;
+            if (firstNode != null) {
+                secondNode = firstNode.next;
+            } else {
+                secondNode = null;
+            }
+        }
+        if (firstNode != null) {
+            preNode.next = firstNode;
+        }
+        return dummyNode.next;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -1,4 +1,4 @@
-  //给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。 
+//给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
 //
 // 请你将两个数相加，并以相同形式返回一个表示和的链表。 
 //
@@ -40,41 +40,72 @@
 //
 // Related Topics 递归 链表 数学 👍 9408 👎 0
 
-  
-  package com.rongsimin.leetcode.editor.cn;
-  
-  /**
-    * 2.两数相加
-    *
-    * @author rsm
-    * @date 2023-03-26 11:59:56
-    */
-  public class Q2AddTwoNumbers{
-      public static void main(String[] args) {
-           Solution solution = new Q2AddTwoNumbers().new Solution();
-      }
-      /**
-        * 2.两数相加
-        *
-        * @author rsm
-        * @date 2023-03-26 11:59:56
-        */
-      //leetcode submit region begin(Prohibit modification and deletion)
+
+package com.rongsimin.leetcode.editor.cn;
+
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * 2.两数相加
+ *
+ * @author rsm
+ * @date 2023-03-26 11:59:56
  */
-class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        return null;
+public class Q2AddTwoNumbers {
+    public static void main(String[] args) {
+        Solution solution = new Q2AddTwoNumbers().new Solution();
+        System.out.println(solution.addTwoNumbers(new ListNode(new int[]{2, 4, 3}), new ListNode(new int[]{5, 6, 4})));
+        System.out.println(solution.addTwoNumbers(new ListNode(new int[]{9,9,9,9,9,9,9}), new ListNode(new int[]{9,9,9,9})));
     }
-}
+    /**
+     * 2.两数相加
+     *
+     * @author rsm
+     * @date 2023-03-26 11:59:56
+     */
+    //leetcode submit region begin(Prohibit modification and deletion)
+
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+            ListNode res = new ListNode(-1);
+            ListNode dummyNode = res;
+            int plus = 0;
+            while (l1 != null && l2 != null) {
+                int sum = l1.val + l2.val + plus;
+                plus = sum / 10;
+                res.next = new ListNode(sum % 10);
+                l1 = l1.next;
+                l2 = l2.next;
+                res = res.next;
+            }
+            while (l1 != null) {
+                int sum = l1.val + plus;
+                plus = sum / 10;
+                res.next = new ListNode(sum % 10);
+                l1 = l1.next;
+                res = res.next;
+            }
+            while (l2 != null) {
+                int sum = l2.val + plus;
+                plus = sum / 10;
+                res.next = new ListNode(sum % 10);
+                l2 = l2.next;
+                res = res.next;
+            }
+            if (plus == 1) {
+                res.next = new ListNode(1);
+            }
+            return dummyNode.next;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
-  }
+}
