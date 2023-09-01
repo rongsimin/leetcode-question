@@ -52,6 +52,9 @@
 
 package com.rongsimin.leetcode.editor.cn;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -63,12 +66,38 @@ import java.util.List;
 public class Q39CombinationSum {
     public static void main(String[] args) {
         Solution solution = new Q39CombinationSum().new Solution();
+        System.out.println(solution.combinationSum(new int[]{2, 3, 6, 7}, 7));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        List<List<Integer>> resList = new ArrayList<>();
         public List<List<Integer>> combinationSum(int[] candidates, int target) {
-            return null;
+
+            Arrays.sort(candidates);
+            dfs(candidates, 0, target, new LinkedList<>());
+            return resList;
+        }
+
+        private void dfs(int[] candidates, int index, int target, LinkedList<Integer> list) {
+            if (target < 0) {
+                return;
+            }
+            if (target == 0) {
+                resList.add(new ArrayList<>(list));
+                return;
+            }
+            for (int i = index; i <= candidates.length - 1; i++) {
+                if (target < candidates[i]) {
+                    break;
+                }
+                list.add(candidates[i]);
+                target -= candidates[i];
+                dfs(candidates, i, target, list);
+                //dfs(candidates, i + 1, target, list);
+                target += candidates[i];
+                list.removeLast();
+            }
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
