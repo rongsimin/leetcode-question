@@ -38,8 +38,7 @@
 
 package com.rongsimin.leetcode.editor.cn;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.Arrays;
 
 /**
  * 279.完全平方数
@@ -50,11 +49,30 @@ import java.util.LinkedList;
 public class Q279PerfectSquares {
     public static void main(String[] args) {
         Solution solution = new Q279PerfectSquares().new Solution();
+        //System.out.println(solution.numSquares(2));
+        System.out.println(solution.numSquares(5));
+        System.out.println(solution.numSquares(12));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int numSquares(int n) {
+            // 每次选择1到i的数字，那么剩下的就是n - i * i
+            // 假设f(n)就是 和为n的完全平方数的最少数量
+            // 那么f(n) = min(f(n - 1), f(n - 4),f (n - 9),...) + 1
+            int[] dp = new int[n + 1];
+            Arrays.fill(dp, n + 1);
+            dp[0] = 0;
+            dp[1] = 1;
+            for (int i = 2; i <= n; i++) {
+                // 从1开始往后选择，直到 j * j > i
+                for (int j = 1; j * j<= i; j++) {
+                    dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+                }
+            }
+            return dp[n];
+        }
+        /* public int numSquares2(int n) {
             // nums[0] -> n
             // nums[1] -> distance
             Deque<int[]> queue = new LinkedList<>();
@@ -80,7 +98,7 @@ public class Q279PerfectSquares {
                 }
             }
             return -1;
-        }
+        } */
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
