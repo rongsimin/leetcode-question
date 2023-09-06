@@ -63,7 +63,7 @@ public class Q46Permutations {
         public List<List<Integer>> permute(int[] nums) {
             List<List<Integer>> resList = new ArrayList<>();
             if (nums.length == 1) {
-                resList.add(Arrays.asList(nums[0]));
+                resList.add(Collections.singletonList(nums[0]));
                 return resList;
             }
             LinkedList<Integer> list = new LinkedList<>();

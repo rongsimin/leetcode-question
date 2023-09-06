@@ -57,7 +57,18 @@ public class Q343IntegerBreak {
     class Solution {
 
         private int[] memo;
+
         public int integerBreak(int n) {
+            int[] dp = new int[n + 1];
+            dp[1] = 1;
+            for (int i = 2; i <= n; i++) {
+                for (int j = 1; j < i; j++) {
+                    dp[i] = max3(dp[i], j * (i - j), j * dp[i - j]);
+                }
+            }
+            return dp[n];
+        }
+        public int integerBreak3(int n) {
             memo = new int[n + 1];
             // memo[i]存放的就是把i进行分割后的最大值
             memo[1] = 1;
