@@ -72,7 +72,34 @@ public class Q139WordBreak {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        int[] isOk;
         public boolean wordBreak(String s, List<String> wordDict) {
+            // 把s切成两段 s[0,j] 和s[j,n],如果前者在字典里面，那么就继续看s[j,n]还能否继续切割
+            isOk = new int[s.length() + 1];
+            Arrays.fill(isOk, -1);
+            return dfs2(s, 0, new HashSet<>(wordDict));
+        }
+
+        private boolean dfs2(String s, int start, HashSet<String> set) {
+            if (start == s.length()) {
+                return true;
+            }
+            if (isOk[start] != -1) {
+                return isOk[start] == 1;
+            }
+            for (int i = start + 1; i <= s.length(); i++) {
+                // 切成两部分 s[start,i] 和s[i,s.length()]
+                String prefix = s.substring(start, i);
+                if (set.contains(prefix) && dfs2(s, i, set)) {
+                    isOk[start] = 1;
+                    return true;
+                }
+            }
+            isOk[start] = 0;
+            return false;
+        }
+
+        public boolean wordBreak2(String s, List<String> wordDict) {
             Set<String> wordSet = new HashSet<>(wordDict);
             // dp[i] 表示 s[0,i-1] 是否可以由List组成
             boolean[] dp = new boolean[s.length() + 1];

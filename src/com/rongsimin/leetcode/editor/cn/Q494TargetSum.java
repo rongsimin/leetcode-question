@@ -52,8 +52,6 @@
 
 package com.rongsimin.leetcode.editor.cn;
 
-import java.util.Arrays;
-
 /**
  * 494.目标和
  *
@@ -63,7 +61,8 @@ import java.util.Arrays;
 public class Q494TargetSum {
     public static void main(String[] args) {
         Solution solution = new Q494TargetSum().new Solution();
-        System.out.println(solution.findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3));
+        //System.out.println(solution.findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3));
+        System.out.println(solution.findTargetSumWays(new int[]{0,0,0,0,0,0,0,0,1}, 1));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -76,9 +75,6 @@ public class Q494TargetSum {
             if (target < -sum || target > sum) {
                 return 0;
             }
-            //if (sum == Math.abs(target)) {
-            //    return 1;
-            //}
             // dp[i][j]表示前面nums[0,i]个元素，组成背包容量是j的方法数，那么求的就是dp[nums.length - 1][target]
             // 对于当前nums[i] 只有两种选择，一种是+,一种是-
             // dp[i][j] = dp[i-1][j - nums[i]] + dp[i - 1][j + nums[i]];
@@ -88,21 +84,21 @@ public class Q494TargetSum {
             // 又因为前面实际sum已经求出来，所以边界值可以以它为准 j <= sum && j >= -sum
             // 对数组中的索引进行偏移
             int offset = sum;
-            int[][] dp = new int[nums.length + 1][2 * sum + 1];
-            dp[0][offset] = 1;
-            for (int i = 1; i <= nums.length; i++) {
+            int[][] dp = new int[nums.length][2 * sum + 1];
+            dp[0][0 + nums[0] + offset] = 1;
+            dp[0][0 - nums[0] + offset] += 1;
+            for (int i = 1; i < nums.length; i++) {
                 for (int j = -sum; j <= sum; j++) {
                     if (Math.abs(j - nums[i]) <= sum) {
                         dp[i][j + offset] += dp[i-1][j - nums[i] + offset];
-                        //dp[i][j + offset] += dp[i-1][j - nums[i] + offset];
                     }
                     if (Math.abs(j + nums[i]) <= sum) {
                         dp[i][j + offset] += dp[i-1][j + nums[i] + offset];
                     }
                 }
             }
-            System.out.println(Arrays.deepToString(dp));
-            return dp[nums.length][target + offset];
+            //System.out.println(Arrays.deepToString(dp));
+            return dp[nums.length - 1][target + offset];
         }
         public int findTargetSumWays2(int[] nums, int target) {
             int sum = 0;

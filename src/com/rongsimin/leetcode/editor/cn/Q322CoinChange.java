@@ -58,7 +58,7 @@ import java.util.Arrays;
 public class Q322CoinChange {
     public static void main(String[] args) {
         Solution solution = new Q322CoinChange().new Solution();
-        //System.out.println(solution.coinChange(new int[]{1, 2, 5}, 11));
+        System.out.println(solution.coinChange(new int[]{1, 2, 5}, 11));
         System.out.println(solution.coinChange(new int[]{2}, 3));
         System.out.println(solution.coinChange(new int[]{2}, 0));
     }
@@ -66,6 +66,26 @@ public class Q322CoinChange {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int coinChange(int[] coins, int amount) {
+            //if (amount == 0) {
+            //    return 0;
+            //}
+            //if (coins.length == 1 && amount % coins[0] != 0) {
+            //    return -1;
+            //}
+            int[] dp = new int[amount + 1];
+            Arrays.fill(dp, amount + 1);
+            dp[0] = 0;
+            for (int i = 1; i <= amount; i++) {
+                for (int coin : coins) {
+                    if (i >= coin) {
+                        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                    }
+                }
+            }
+
+            return dp[amount] != amount + 1 ? dp[amount] : -1;
+        }
+        public int coinChange3(int[] coins, int amount) {
             // dp[i] 表示总金额为i时，所需要的最少的硬币个数
             // 那么 f(i) = for in coins : min(f(i - coin)) + 1
             int[] dp = new int[amount + 1];
