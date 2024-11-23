@@ -82,6 +82,33 @@ public class Q447NumberOfBoomerangs {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int numberOfBoomerangs(int[][] points) {
+            if (points.length < 3) {
+                return 0;
+            }
+            int m = points.length;
+            int res = 0;
+            for (int i = 0; i < m; i ++) {
+                Map<Integer, Integer> countMap = new HashMap<>();
+                for (int j = 0; j < m; j++) {
+                    if (i == j) {
+                        continue;
+                    }
+                    int[] point1 = points[i];
+                    int[] point2 = points[j];
+
+                    int distance =  (int) (Math.pow(point2[0] - point1[0], 2) + Math.pow(point2[1] - point1[1], 2));
+                    countMap.put(distance, countMap.getOrDefault(distance, 0) + 1);
+                }
+                for(int count : countMap.values()) {
+                    if (count >= 2) {
+                        res += count * (count - 1);
+                    }
+                }
+
+            }
+            return res;
+        }
+        public int numberOfBoomerangs2(int[][] points) {
             int n = points.length;
             int count = 0;
             for (int i = 0; i < n; i++) {

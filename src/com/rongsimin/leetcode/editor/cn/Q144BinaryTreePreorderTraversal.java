@@ -94,7 +94,38 @@ public class Q144BinaryTreePreorderTraversal {
      * }
      */
     class Solution {
+
         public List<Integer> preorderTraversal(TreeNode root) {
+            if (root == null) {
+                return new ArrayList<>();
+            }
+            Stack<CommandNew> stack = new Stack<>();
+            stack.push(new CommandNew(false, root));
+            List<Integer> list = new ArrayList<>();
+            while (!stack.isEmpty()) {
+                CommandNew pop = stack.pop();
+                if (pop.isPrint) {
+                    list.add(pop.node.val);
+                } else {
+                    if (pop.node.right != null) stack.push(new CommandNew(false, pop.node.right));
+                    if (pop.node.left != null) stack.push(new CommandNew(false, pop.node.left));
+                    stack.push(new CommandNew(true, pop.node));
+                }
+            }
+
+            return list;
+        }
+
+        private class CommandNew {
+            boolean isPrint;
+            TreeNode node;
+
+            public CommandNew(boolean isPrint, TreeNode node) {
+                this.isPrint = isPrint;
+                this.node = node;
+            }
+        }
+        public List<Integer> preorderTraversal2(TreeNode root) {
             if (root == null) {
                 return new ArrayList<>();
             }

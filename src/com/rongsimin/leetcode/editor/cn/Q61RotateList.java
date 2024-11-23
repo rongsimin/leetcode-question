@@ -63,6 +63,39 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
+        if (head == null|| head.next == null || k == 0) {
+            return head;
+        }
+        ListNode cur = head;
+        int count = 0;
+        while (cur != null) {
+            cur = cur.next;
+            count++;
+        }
+        ListNode dummyNode = new ListNode(-200, head);
+        k = k % count;
+        if (k == 0) {
+            return head;
+        }
+        ListNode slow = dummyNode;
+        ListNode fast = dummyNode;
+        // 找到目标k的前驱节点
+        for (int i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        // 此时fast运行到最后一个节点，slow指向前驱节点的位置
+        // 断开slow后面的节点,需要先把slow.next保存起来，作为头节点返回
+        ListNode resNode = slow.next;
+        slow.next = null;
+        // fast 和slow 连接上
+        fast.next = head;
+        return resNode;
+    }
+    public ListNode rotateRight2(ListNode head, int k) {
         if (head == null || head.next == null) {
             return head;
         }

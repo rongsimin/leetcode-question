@@ -71,7 +71,21 @@ public class Q404SumOfLeftLeaves {
      */
     class Solution {
         private int sum;
+
         public int sumOfLeftLeaves(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            //    左叶子，root.left != null && root.left.left == null && root.left.right == null
+            if (root.left != null && root.left.left == null && root.left.right == null) {
+                sum += root.left.val;
+            }
+            sumOfLeftLeaves(root.left);
+            sumOfLeftLeaves(root.right);
+            return sum;
+        }
+
+        public int sumOfLeftLeaves2(TreeNode root) {
             traverse(root);
             return sum;
         }

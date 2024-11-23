@@ -75,7 +75,51 @@
  * }
  */
 class Solution {
+
     public void reorderList(ListNode head) {
+        int count = 0;
+        ListNode cur = head;
+        while (cur != null) {
+            count++;
+            cur = cur.next;
+        }
+        int mid = count / 2;
+        ListNode dummyNode = new ListNode(-100, head);
+        ListNode preNode = dummyNode;
+        for (int i = 0; i < mid; i++) {
+            preNode = preNode.next;
+        }
+    //    左边是head
+        ListNode left = head;
+    //    右边是preNode.next
+        ListNode right = preNode.next;
+        preNode.next = null;
+        ListNode reverse = reverse1(right);
+        for (int i = 0; i < count; i++) {
+            if (i % 2 == 0 && i != (count - 1)) {
+                dummyNode.next = left;
+                left = left.next;
+            } else {
+                dummyNode.next = reverse;
+                reverse = reverse.next;
+            }
+            dummyNode = dummyNode.next;
+        }
+    }
+
+    private ListNode reverse1(ListNode head) {
+        ListNode preNode = null;
+        ListNode curNode = head;
+        while (curNode != null) {
+            ListNode next = curNode.next;
+            curNode.next = preNode;
+            preNode = curNode;
+            curNode = next;
+        }
+        return preNode;
+    }
+
+    public void reorderList2(ListNode head) {
 
         ListNode dummyNode = new ListNode(-1, head);
         ListNode fast = dummyNode;

@@ -85,6 +85,21 @@ public class Q112PathSum {
             if (root == null) {
                 return false;
             }
+            return helper(root, targetSum);
+        }
+
+        private boolean helper(TreeNode root, int targetSum) {
+            if (root.left == null && root.right == null) {
+                return root.val == targetSum;
+            }
+            targetSum -= root.val;
+            return helper(root.left, targetSum) || helper(root.right, targetSum);
+        }
+
+        public boolean hasPathSum2(TreeNode root, int targetSum) {
+            if (root == null) {
+                return false;
+            }
             // 叶子节点的定义，左右子树都是null
             if (root.left == null && root.right == null) {
                 if (root.val == targetSum) {

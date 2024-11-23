@@ -74,7 +74,27 @@ public class Q236LowestCommonAncestorOfABinaryTree {
      * }
      */
     class Solution {
+
         public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            return findNew(root, p.val, q.val);
+        }
+
+        private TreeNode findNew(TreeNode root, int p, int q) {
+            if (root == null) {
+                return null;
+            }
+            if (root.val == p || root.val == q) {
+                return root;
+            }
+            TreeNode left = findNew(root.left, p, q);
+            TreeNode right = findNew(root.right, p, q);
+            if (left != null && right != null) {
+                return root;
+            }
+            return left == null ? right : left;
+        }
+
+        public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
             return find(root, p.val, q.val);
         }
 

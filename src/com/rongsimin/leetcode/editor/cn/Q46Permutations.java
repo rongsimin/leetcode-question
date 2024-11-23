@@ -62,6 +62,31 @@ public class Q46Permutations {
     class Solution {
         public List<List<Integer>> permute(int[] nums) {
             List<List<Integer>> resList = new ArrayList<>();
+            Set<Integer> set = new HashSet<>();
+            dnf(nums, resList, set, new ArrayList<>());
+            return resList;
+        }
+
+        private void dnf(int[] nums, List<List<Integer>> resList, Set<Integer> set, List<Integer> list) {
+            if (list.size() == nums.length) {
+                resList.add(new ArrayList<>(list));
+                return;
+            }
+            for (int i = 0; i < nums.length; i++) {
+                if (set.contains(i)) {
+                    continue;
+                }
+                set.add(i);
+                list.add(nums[i]);
+                dnf(nums, resList, set, list);
+                set.remove(i);
+                list.remove(list.size() - 1);
+            }
+
+        }
+
+        public List<List<Integer>> permute2(int[] nums) {
+            List<List<Integer>> resList = new ArrayList<>();
             if (nums.length == 1) {
                 resList.add(Collections.singletonList(nums[0]));
                 return resList;

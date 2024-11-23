@@ -84,7 +84,34 @@ public class Q113PathSumIi {
     class Solution {
 
         private List<List<Integer>> resList = new ArrayList<>();
+
         public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+            if (root == null) {
+                return resList;
+            }
+            dnf(root, targetSum, new ArrayList<>());
+            return resList;
+        }
+
+        private void dnf(TreeNode root, int targetSum, List<Integer> temp) {
+            if (root.left == null && root.right == null) {
+                if (root.val == targetSum) {
+                    temp.add(root.val);
+                    resList.add(new ArrayList<>(temp));
+                }
+                return;
+            }
+            targetSum -= root.val;
+            temp.add(root.val);
+            if (root.left != null) {
+                dnf(root.left, targetSum, new ArrayList<>(temp));
+            }
+            if (root.right != null) {
+                dnf(root.right, targetSum, new ArrayList<>(temp));
+            }
+        }
+
+        public List<List<Integer>> pathSum2(TreeNode root, int targetSum) {
             List<Integer> temp = new ArrayList<>();
             dfs(root, temp, targetSum);
             return resList;

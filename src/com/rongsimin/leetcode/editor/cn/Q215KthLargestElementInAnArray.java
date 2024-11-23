@@ -57,13 +57,66 @@ public class Q215KthLargestElementInAnArray {
      */
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
         public int findKthLargest(int[] nums, int k) {
-            // 如第1大，就是排序后的最后一个元素nums[n - 1]
-            // 第k大，也就是nums[n - k]
-            return findKthLargest(nums, 0, nums.length - 1, nums.length - k);
+            // 第1大表示 第n - 1 个元素
+            // 第k大表示 第n - k 个元素, nums[n - k]
+            return findKthLargest(nums, k, 0, nums.length - 1);
         }
 
-        private int findKthLargest(int[] nums, int l, int r, int k) {
+        private int findKthLargest(int[] nums, int k, int left, int right) {
+            if (left == right) {
+                return nums[left];
+            }
+            int p = partition(nums, left, right);
+            if (p == nums.length - k) {
+                return nums[p];
+            } else if (p < nums.length - k) {
+                return findKthLargest(nums, k, p + 1, right);
+            } else {
+                return findKthLargest(nums, k, left, p - 1);
+            }
+        }
+
+        private int partition(int[] nums, int left, int right) {
+            Random random = new Random();
+            int pivot = random.nextInt(right - left + 1) + left;
+            swap(nums, left, pivot);
+            int temp = nums[left];
+            // [left + 1,lt) 小于等于temp
+            int lt = left + 1;
+            // [gt,right] 大于等于temp
+            int gt = right + 1;
+            while (lt < gt) {
+                while (lt < gt && nums[lt] < temp) {
+                    lt++;
+                }
+                while (lt < gt && nums[gt - 1] > temp) {
+                    gt--;
+                }
+                if (lt >= gt) {
+                    break;
+                }
+                swap(nums, lt, gt - 1);
+                lt++;
+                gt--;
+            }
+            swap(nums, left, lt - 1);
+            return lt - 1;
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        }
+        public int findKthLargest2(int[] nums, int k) {
+            // 如第1大，就是排序后的最后一个元素nums[n - 1]
+            // 第k大，也就是nums[n - k]
+            return findKthLargest2(nums, 0, nums.length - 1, nums.length - k);
+        }
+
+        private int findKthLargest2(int[] nums, int l, int r, int k) {
             if (l >= r) {
                 return nums[l];
             }
@@ -71,9 +124,9 @@ public class Q215KthLargestElementInAnArray {
             if (partition == k) {
                 return nums[partition];
             } else if (partition < k) {
-                return findKthLargest(nums, partition + 1, r, k);
+                return findKthLargest2(nums, partition + 1, r, k);
             } else {
-                return findKthLargest(nums, l, partition - 1, k);
+                return findKthLargest2(nums, l, partition - 1, k);
             }
         }
 

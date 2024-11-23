@@ -68,7 +68,12 @@ public class Q234PalindromeLinkedList {
      * }
      */
     class Solution {
+
         public boolean isPalindrome(ListNode head) {
+
+            return false;
+        }
+        public boolean isPalindrome2(ListNode head) {
             if (head == null || head.next == null) {
                 return true;
             }

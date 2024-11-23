@@ -54,6 +54,7 @@
 
 package com.rongsimin.leetcode.editor.cn;
 
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -82,6 +83,22 @@ public class Q220ContainsDuplicateIii {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {
+            int left = 0;
+            int right = 0;
+            TreeMap<Integer, Integer> countMap = new TreeMap<>();
+            while (right < nums.length) {
+                //if () {
+                //    return true;
+                //}
+                //countMap.put(nums[right], right);
+                //if (countMap.size() > indexDiff) {
+                //    countMap.remove();
+                //}
+            }
+
+            return false;
+        }
+        public boolean containsNearbyAlmostDuplicate2(int[] nums, int indexDiff, int valueDiff) {
             TreeSet<Integer> treeSet = new TreeSet<>();
             for (int i = 0; i < nums.length; i++) {
                 if ((treeSet.floor(nums[i]) != null && nums[i] - treeSet.floor(nums[i]) <= valueDiff)

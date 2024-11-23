@@ -88,6 +88,7 @@ public class Q129SumRootToLeafNumbers {
      * }
      */
     class Solution {
+
         public int sumNumbers(TreeNode root) {
             return sumNumbers(root, 0);
         }
@@ -100,7 +101,23 @@ public class Q129SumRootToLeafNumbers {
                 sum = sum * 10 + root.val;
                 return sum;
             }
-            return sumNumbers(root.left, sum * 10 + root.val) + sumNumbers(root.right, sum * 10 + root.val);
+            sum = sum * 10 + root.val;
+            return sumNumbers(root.left, sum) + sumNumbers(root.right, sum);
+        }
+
+        public int sumNumbers1(TreeNode root) {
+            return sumNumbers1(root, 0);
+        }
+
+        private int sumNumbers1(TreeNode root, int sum) {
+            if (root == null) {
+                return 0;
+            }
+            if (root.left == null && root.right == null) {
+                sum = sum * 10 + root.val;
+                return sum;
+            }
+            return sumNumbers1(root.left, sum * 10 + root.val) + sumNumbers1(root.right, sum * 10 + root.val);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

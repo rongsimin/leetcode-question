@@ -71,7 +71,31 @@
     */
       //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public void sortColors(int[] nums) {
+
+          public void sortColors(int[] nums) {
+              // [0,lt) 是0， [gt,n-1]是2,碰到0，swap(lt, i),lt++,i++;碰到2，gt--;swap(i,gt),
+              int lt = 0;
+              int gt = nums.length;
+              for (int i = 0; i < gt;) {
+                  if (nums[i] == 0) {
+                      swap(nums, i, lt);
+                      lt++;
+                      i++;
+                  } else if (nums[i] == 1) {
+                      i++;
+                  } else {
+                      gt--;
+                      swap(nums, i, gt);
+                  }
+              }
+          }
+
+          private void swap(int[] nums, int i, int j) {
+              int temp = nums[i];
+              nums[i] = nums[j];
+              nums[j] = temp;
+          }
+    public void sortColors2(int[] nums) {
         int zero = -1; // [0, zero] 是等于0
         int two = nums.length; // [two, n - 1] 是等于2
 

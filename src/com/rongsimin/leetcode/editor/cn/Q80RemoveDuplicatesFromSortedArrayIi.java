@@ -66,7 +66,10 @@
   public class Q80RemoveDuplicatesFromSortedArrayIi{
       public static void main(String[] args) {
            Solution solution = new Q80RemoveDuplicatesFromSortedArrayIi().new Solution();
-           solution.removeDuplicates(new int[]{1,1,1,2,2,3});
+          System.out.println(solution.removeDuplicates(new int[]{1, 1, 1, 2, 2, 3}));
+          System.out.println(solution.removeDuplicates(new int[]{1, 1, 2, 2, 3}));
+          System.out.println(solution.removeDuplicates(new int[]{1, 1, 1, 1,1, 1}));
+          System.out.println(solution.removeDuplicates(new int[]{1, 2, 3, 4,5, 6}));
       }
       /**
         * 80.删除有序数组中的重复项 II
@@ -76,7 +79,45 @@
         */
       //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public int removeDuplicates(int[] nums) {
+
+          public int removeDuplicates(int[] nums) {
+              int slow = 0;
+              int fast = 0;
+              int waitInsert = 0;
+              while (fast < nums.length) {
+                  while (fast < nums.length && nums[fast] == nums[slow]) {
+                      fast++;
+                  }
+                  if (fast == nums.length) {
+                      break;
+                  }
+                  if (fast - slow >= 2) {
+                      // 有超过2个重复元素 元素待插入的位置是 slow +2
+                      for (int i = 0; i < 2; i++) {
+                          nums[waitInsert] = nums[slow + i];
+                          waitInsert++;
+                      }
+                  } else {
+                      nums[waitInsert] = nums[slow];
+                      waitInsert++;
+                  }
+                  slow = fast;
+
+              }
+              // 还要看最后一个元素是否重复超过2 fast - slow > 2
+              if (fast - slow >= 2) {
+                  // 有超过2个重复元素 元素待插入的位置是 slow +2
+                  for (int i = 0; i < 2; i++) {
+                      nums[waitInsert] = nums[slow + i];
+                      waitInsert++;
+                  }
+              } else {
+                  nums[waitInsert] = nums[slow];
+                  waitInsert++;
+              }
+              return waitInsert;
+          }
+    public int removeDuplicates2(int[] nums) {
         int slow = 0;
         int count = 0;
         // 输入：nums = [1,1,1,2,2,3]

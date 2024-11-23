@@ -64,6 +64,24 @@ public class Q219ContainsDuplicateIi {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public boolean containsNearbyDuplicate(int[] nums, int k) {
+            // key -> num, value -> index
+            Map<Integer, Integer> countMap = new HashMap<>();
+            int right = 0;
+            while (right < nums.length) {
+                if (countMap.containsKey(nums[right])) {
+                    if (right - countMap.get(nums[right]) <= k) {
+                        return true;
+                    } else {
+                        countMap.remove(nums[right]);
+                    }
+                }
+                countMap.put(nums[right], right);
+                right++;
+            }
+
+            return false;
+        }
+        public boolean containsNearbyDuplicate2(int[] nums, int k) {
             if (k == 0) {
                 return false;
             }

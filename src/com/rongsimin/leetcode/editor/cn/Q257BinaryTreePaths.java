@@ -68,7 +68,29 @@ public class Q257BinaryTreePaths {
      * }
      */
     class Solution {
+
         public List<String> binaryTreePaths(TreeNode root) {
+            List<String> resList = new ArrayList<>();
+            dnf(root, resList, "");
+            return resList;
+        }
+
+        private void dnf(TreeNode root, List<String> resList, String temp) {
+            if (root.left == null && root.right == null) {
+                temp += root.val;
+                resList.add(temp);
+                return;
+            }
+            temp += root.val + "->";
+            if (root.left != null) {
+                dnf(root.left, resList, temp);
+            }
+            if (root.right != null) {
+                dnf(root.right, resList, temp);
+            }
+        }
+
+        public List<String> binaryTreePaths2(TreeNode root) {
             List<String> list = new ArrayList<>();
             dfs(list, root, "");
             return list;

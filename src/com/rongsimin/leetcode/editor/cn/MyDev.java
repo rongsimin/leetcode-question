@@ -1,5 +1,7 @@
 package com.rongsimin.leetcode.editor.cn;
 
+import java.util.ArrayList;
+
 /**
  * @author rsm
  * @date 2023/12/23 18:37
@@ -7,5 +9,9 @@ package com.rongsimin.leetcode.editor.cn;
 public class MyDev {
     public static void main(String[] args) {
         System.out.println("myDEV is run");
+
+        System.out.println("hello");
+        ArrayList<Object> objects = new ArrayList<>();
+
     }
 }

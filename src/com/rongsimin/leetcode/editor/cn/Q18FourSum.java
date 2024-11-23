@@ -53,27 +53,77 @@ import java.util.List;
 public class Q18FourSum {
     public static void main(String[] args) {
         Solution solution = new Q18FourSum().new Solution();
-        System.out.println(solution.fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0));
-        System.out.println(solution.fourSum(new int[]{2,2,2,2,2}, 8));
+        //System.out.println(solution.fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0));
+        //System.out.println(solution.fourSum(new int[]{2, 2, 2, 2, 2}, 8));
+        System.out.println(solution.fourSum(new int[]{1,-2,-5,-4,-3,3,3,5}, -11));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public List<List<Integer>> fourSum(int[] nums, int target) {
+            if (nums.length < 4) {
+                return new ArrayList<>();
+            }
+            Arrays.sort(nums);
+            List<List<Integer>> resList = new ArrayList<>();
+            for (int i = 0; i < nums.length - 3;) { // 固定左边界
+                for (int j = i + 1; j < nums.length - 2; ) {// 固定左边第二根柱子
+                    long t = (long)target - nums[i] - nums[j];
+                    int l = j + 1;
+                    int r = nums.length - 1;
+                    while (l < r) {
+                        if (nums[l] + nums[r] < t) {
+                            l = findNextIndex(nums, l);
+                        } else if (nums[l] + nums[r] > t) {
+                            r = findPreIndex(nums, r);
+                        } else {
+                            resList.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                            l = findNextIndex(nums, l);
+                            r = findPreIndex(nums, r);
+                        }
+                    }
+                    j = findNextIndex(nums, j);
+                }
+                i = findNextIndex(nums, i);
+            }
+            return resList;
+        }
+
+        private int findPreIndex(int[] nums, int curIndex) {
+            int temp = nums[curIndex];
+            for (int i = curIndex - 1; i >= 0; i--) {
+                if (nums[i] != temp) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private int findNextIndex(int[] nums, int curIndex) {
+            int temp = nums[curIndex];
+            for (int i = curIndex + 1; i < nums.length; i++) {
+                if (nums[i] != temp) {
+                    return i;
+                }
+            }
+            return nums.length;
+        }
+
+        public List<List<Integer>> fourSum2(int[] nums, int target) {
             List<List<Integer>> resList = new ArrayList<>();
             Arrays.sort(nums);
-            for (int i = 0; i < nums.length - 3;) {
-                for (int j = i + 1; j < nums.length - 2;) {
-                    long t = (long)target - nums[i] - nums[j];
+            for (int i = 0; i < nums.length - 3; ) {
+                for (int j = i + 1; j < nums.length - 2; ) {
+                    long t = (long) target - nums[i] - nums[j];
                     int k = j + 1;
                     int r = nums.length - 1;
                     if (k >= r) {
                         break;
                     }
                     while (k < r) {
-                        if ((long)nums[k] + (long)nums[r] - t > 0) {
+                        if ((long) nums[k] + (long) nums[r] - t > 0) {
                             r = preIndex(nums, r);
-                        } else if ((long)nums[k] + (long)nums[r] - t < 0) {
+                        } else if ((long) nums[k] + (long) nums[r] - t < 0) {
                             k = nextIndex(nums, k);
                         } else {
                             resList.add(Arrays.asList(nums[i], nums[j], nums[k], nums[r]));

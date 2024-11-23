@@ -61,6 +61,51 @@ public class Q16ThreeSumClosest {
     class Solution {
         public int threeSumClosest(int[] nums, int target) {
             Arrays.sort(nums);
+            int diff = nums[0] + nums[1] + nums[2] - target;
+            int res = 0;
+            for (int i = 0; i < nums.length - 2; ) { // 固定左边柱子
+                int j = i + 1;
+                int k = nums.length - 1;
+                while (j < k) {
+                    int tempDiff = nums[i] + nums[j] + nums[k] - target;
+                    if (Math.abs(tempDiff) < Math.abs(diff)) {
+                        diff = tempDiff;
+                        res = nums[i] + nums[j] + nums[k];
+                        j = findNextIndex(nums, j);
+                        k = findPreIndex(nums, k);
+                    } else if (tempDiff > diff) {
+                        k = findPreIndex(nums, k);
+                    } else {
+                        j = findNextIndex(nums, j);
+                    }
+                }
+                i = findNextIndex(nums, i);
+            }
+            return res;
+        }
+
+        private int findPreIndex(int[] nums, int curIndex) {
+            int temp = nums[curIndex];
+            for (int i = curIndex - 1; i >= 0; i--) {
+                if (nums[i] != temp) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private int findNextIndex(int[] nums, int curIndex) {
+            int temp = nums[curIndex];
+            for (int i = curIndex + 1; i < nums.length; i++) {
+                if (nums[i] != temp) {
+                    return i;
+                }
+            }
+            return nums.length;
+        }
+
+        public int threeSumClosest2(int[] nums, int target) {
+            Arrays.sort(nums);
             int result = Integer.MAX_VALUE;
             for (int i = 0; i < nums.length - 2; i++) {
                 int k = i + 1;

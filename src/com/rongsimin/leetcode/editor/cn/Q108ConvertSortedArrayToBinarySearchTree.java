@@ -74,6 +74,7 @@ public class Q108ConvertSortedArrayToBinarySearchTree {
      * }
      */
     class Solution {
+
         public TreeNode sortedArrayToBST(int[] nums) {
             return sortedArrayToBST(nums, 0, nums.length - 1);
         }
@@ -82,11 +83,28 @@ public class Q108ConvertSortedArrayToBinarySearchTree {
             if (left > right) {
                 return null;
             }
+            int rootIndex = (right + left) / 2;
+            TreeNode root = new TreeNode(nums[rootIndex]);
+            TreeNode leftNode = sortedArrayToBST(nums, left, rootIndex - 1);
+            TreeNode rightNode = sortedArrayToBST(nums, rootIndex + 1, right);
+            root.left = leftNode;
+            root.right = rightNode;
+            return root;
+        }
+
+        public TreeNode sortedArrayToBST2(int[] nums) {
+            return sortedArrayToBST2(nums, 0, nums.length - 1);
+        }
+
+        private TreeNode sortedArrayToBST2(int[] nums, int left, int right) {
+            if (left > right) {
+                return null;
+            }
             // 选取最中间的数为根节点
             int rootIndex = (right + left) / 2;
             TreeNode root = new TreeNode(nums[rootIndex]);
-            root.left = sortedArrayToBST(nums, left, rootIndex - 1);
-            root.right = sortedArrayToBST(nums, rootIndex + 1, right);
+            root.left = sortedArrayToBST2(nums, left, rootIndex - 1);
+            root.right = sortedArrayToBST2(nums, rootIndex + 1, right);
             return root;
         }
     }

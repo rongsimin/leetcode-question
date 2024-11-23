@@ -1,4 +1,4 @@
-  //给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。 
+//给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 //
 // 
 //
@@ -46,50 +46,66 @@
 //
 //
 
-  
-  package com.rongsimin.leetcode.editor.cn;
 
-  /**
-    * 19.删除链表的倒数第 N 个结点
-    *
-    * @author rsm
-    * @date 2023-08-22 11:29:00
-    */
-  public class Q19RemoveNthNodeFromEndOfList{
-      public static void main(String[] args) {
-           Solution solution = new Q19RemoveNthNodeFromEndOfList().new Solution();
-          //System.out.println(solution.removeNthFromEnd(new ListNode(new int[]{1, 2, 3, 4, 5}), 2));
-          System.out.println(solution.removeNthFromEnd(new ListNode(new int[]{1}), 1));
-          System.out.println(solution.removeNthFromEnd(new ListNode(new int[]{1, 2}), 1));
-      }
-      
-      //leetcode submit region begin(Prohibit modification and deletion)
+package com.rongsimin.leetcode.editor.cn;
+
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * 19.删除链表的倒数第 N 个结点
+ *
+ * @author rsm
+ * @date 2023-08-22 11:29:00
  */
-class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummyNode = new ListNode(-1, head);
-        ListNode fast = dummyNode;
-        for (int i = 0; i < n + 1; i++) {
-            fast = fast.next;
-        }
-        ListNode slow = dummyNode;
-        while (fast != null) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-        slow.next = slow.next.next;
-        return dummyNode.next;
+public class Q19RemoveNthNodeFromEndOfList {
+    public static void main(String[] args) {
+        Solution solution = new Q19RemoveNthNodeFromEndOfList().new Solution();
+        System.out.println(solution.removeNthFromEnd(new ListNode(new int[]{1, 2, 3, 4, 5}), 2));
+        System.out.println(solution.removeNthFromEnd(new ListNode(new int[]{1}), 1));
+        System.out.println(solution.removeNthFromEnd(new ListNode(new int[]{1, 2}), 1));
     }
-}
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            ListNode dummyNode = new ListNode(-1, head);
+            ListNode slow = dummyNode;
+            ListNode fast = dummyNode;
+            for (int i = 0; i < n; i++) {
+                fast = fast.next;
+            }
+            while (fast.next != null) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            slow.next = slow.next.next;
+            return dummyNode.next;
+        }
+
+        public ListNode removeNthFromEnd2(ListNode head, int n) {
+            ListNode dummyNode = new ListNode(-1, head);
+            ListNode fast = dummyNode;
+            for (int i = 0; i < n + 1; i++) {
+                fast = fast.next;
+            }
+            ListNode slow = dummyNode;
+            while (fast != null) {
+                fast = fast.next;
+                slow = slow.next;
+            }
+            slow.next = slow.next.next;
+            return dummyNode.next;
+        }
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
-  }
+}
