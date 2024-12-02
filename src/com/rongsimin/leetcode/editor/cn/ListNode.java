@@ -8,12 +8,12 @@ public class ListNode {
     public int val;
     public ListNode next = null;
 
-    public ListNode(int x) {
-        val = x;
+    public ListNode(int val) {
+        this.val = val;
     }
 
-    public ListNode(int x, ListNode next) {
-        this.val = x;
+    public ListNode(int val, ListNode next) {
+        this.val = val;
         this.next = next;
     }
 
@@ -23,15 +23,15 @@ public class ListNode {
      *
      * @param arr
      */
-    public ListNode (int[] arr){
+    public ListNode(int[] arr) {
 
-        if(arr == null || arr.length == 0) {
+        if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException("arr can not be empty");
         }
 
         this.val = arr[0];
         ListNode curNode = this;
-        for(int i = 1 ; i < arr.length ; i ++){
+        for (int i = 1; i < arr.length; i++) {
             curNode.next = new ListNode(arr[i]);
             curNode = curNode.next;
         }
@@ -39,11 +39,11 @@ public class ListNode {
 
     // 返回以当前ListNode为头结点的链表信息字符串
     @Override
-    public String toString(){
+    public String toString() {
 
         StringBuilder s = new StringBuilder("");
         ListNode curNode = this;
-        while(curNode != null){
+        while (curNode != null) {
             s.append(Integer.toString(curNode.val));
             s.append(" -> ");
             curNode = curNode.next;
