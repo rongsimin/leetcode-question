@@ -65,6 +65,32 @@ public class Q24_两两交换链表中的节点 {
                 return head;
             }
             ListNode dummyNode = new ListNode(-1, head);
+            ListNode first = head;
+            ListNode second = head.next;
+            ListNode pre = dummyNode;
+            while (first != null && second != null) {
+                ListNode next = second.next;
+                first.next = next;
+                second.next = first;
+                pre.next = second;
+
+                pre = first;
+                first = first.next;
+                if (next != null) {
+                    second = next.next;
+                }
+            }
+            if (first != null) {
+                pre.next = first;
+            }
+            return dummyNode.next;
+        }
+
+        public ListNode swapPairs2(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode dummyNode = new ListNode(-1, head);
             ListNode preNode = dummyNode;
             ListNode one = head;
             ListNode two = head.next;
