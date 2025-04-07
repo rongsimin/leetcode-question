@@ -72,6 +72,51 @@ public class Q76_最小覆盖子串 {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        public String minWindow(String s, String t) {
+            if (t.length() > s.length()) {
+                return "";
+            }
+            Map<Character, Integer> tCountMap = new HashMap<>();
+            for (int i = 0; i < t.length(); i++) {
+                tCountMap.putIfAbsent(t.charAt(i), 0);
+                tCountMap.put(t.charAt(i), tCountMap.get(t.charAt(i)) + 1);
+            }
+            Map<Character, Integer> sCountMap = new HashMap<>();
+            // [i,j] 是包含的最小子串
+            int i = 0;
+            int j = 0;
+            int minL = -10000;
+            int minR = 10000;
+            while (i < s.length() - t.length() + 1) {
+                if (j < s.length()) {
+                    sCountMap.putIfAbsent(s.charAt(j), 0);
+                    sCountMap.put(s.charAt(j), sCountMap.get(s.charAt(j)) + 1);
+                    j++;
+                }
+                while (j - i + 1 >= t.length() && isFind(sCountMap, tCountMap)) {
+                    if (j - i < minR - minL) {
+                        minL = i;
+                        minR = j;
+                    }
+                    sCountMap.put(s.charAt(i), sCountMap.get(s.charAt(i)) - 1);
+                    i++;
+                }
+                if (j >= s.length()) {
+                    break;
+                }
+            }
+            return minL == -10000 ? "" : s.substring(minL, minR);
+        }
+
+        private boolean isFind(Map<Character, Integer> sCountMap, Map<Character, Integer> tCountMap) {
+            for (Map.Entry<Character, Integer> entry : tCountMap.entrySet()) {
+                if (!sCountMap.containsKey(entry.getKey()) || sCountMap.get(entry.getKey()) < tCountMap.get(entry.getKey())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public String minWindowV2(String s, String t) {
             if (s.length() < t.length()) {
                 return "";
@@ -117,7 +162,7 @@ public class Q76_最小覆盖子串 {
             return true;
         }
 
-        public String minWindow(String s, String t) {
+        public String minWindow2(String s, String t) {
             if (s.length() < t.length()) {
                 return "";
             }
@@ -149,6 +194,7 @@ public class Q76_最小覆盖子串 {
             }
             return resL == -1 ? "" : s.substring(resL, resR + 1);
         }
+
         public String minWindowOld(String s, String t) {
             if (s.length() < t.length()) {
                 return "";

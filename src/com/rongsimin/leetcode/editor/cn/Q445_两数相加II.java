@@ -67,12 +67,40 @@ public class Q445_两数相加II {
      * int val;
      * ListNode next;
      * ListNode() {}
+     * <p>
      * ListNode(int val) { this.val = val; }
      * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
      * }
      */
     class Solution {
         public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+            Deque<ListNode> deque1 = new LinkedList<>();
+            Deque<ListNode> deque2 = new LinkedList<>();
+            while (l1 != null) {
+                deque1.addLast(l1);
+                l1 = l1.next;
+            }
+            while (l2 != null) {
+                deque2.addLast(l2);
+                l2 = l2.next;
+            }
+            ListNode next = null;
+            int mayBeOne = 0;
+            while (!deque1.isEmpty() || !deque2.isEmpty()) {
+                int a = deque1.isEmpty() ? 0 : deque1.removeLast().val;
+                int b = deque2.isEmpty() ? 0 : deque2.removeLast().val;
+
+                int total = a + b + mayBeOne;
+                mayBeOne = total / 10;
+                next = new ListNode(total % 10, next);
+            }
+            if (mayBeOne == 1) {
+                next = new ListNode(1, next);
+            }
+            return next;
+        }
+
+        public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
             Deque<Integer> deque1 = new LinkedList<>();
             Deque<Integer> deque2 = new LinkedList<>();
             ListNode node1 = l1;

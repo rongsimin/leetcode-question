@@ -44,7 +44,8 @@ package com.rongsimin.leetcode.editor.cn;
 public class Q234_回文链表 {
     public static void main(String[] args) {
         Solution solution = new Q234_回文链表().new Solution();
-        ListNode head = new ListNode(new int[]{1, 2, 2, 1});
+        //ListNode head = new ListNode(new int[]{1, 2, 2, 1});
+        ListNode head = new ListNode(new int[]{1, 1, 2, 1});
         System.out.println(solution.isPalindrome(head));
         head = new ListNode(new int[]{1, 2, 3, 2, 1});
         System.out.println(solution.isPalindrome(head));
@@ -65,6 +66,7 @@ public class Q234_回文链表 {
      * }
      */
     class Solution {
+
         public boolean isPalindrome(ListNode head) {
             if (head == null || head.next == null) {
                 return true;
@@ -90,7 +92,64 @@ public class Q234_回文链表 {
             return true;
         }
 
+        public boolean isPalindromeWrong(ListNode head) {
+            if (head == null || head.next == null) {
+                return true;
+            }
+            ListNode cur = head;
+            ListNode newHead = reverse1(cur);
+            return isEquals2(head, newHead);
+        }
+
+        private boolean isEquals2(ListNode head, ListNode newHead) {
+            while (head != null && newHead != null) {
+                if (head.val != newHead.val) {
+                    return false;
+                }
+                head = head.next;
+                newHead = newHead.next;
+            }
+            return true;
+        }
+
+        private ListNode reverse1(ListNode head) {
+            ListNode pre = null;
+            ListNode cur = head;
+            while (cur != null) {
+                ListNode next = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = next;
+            }
+            return pre;
+        }
+
         public boolean isPalindrome2(ListNode head) {
+            if (head == null || head.next == null) {
+                return true;
+            }
+            ListNode dummyNode = new ListNode(-1, head);
+            ListNode slow = dummyNode;
+            ListNode fast = dummyNode;
+            while (fast != null && fast.next != null) {
+                fast = fast.next.next;
+                slow = slow.next;
+            }
+            ListNode right = slow.next;
+            ListNode rightHead = reverse(right);
+            slow.next = null;
+            ListNode leftHead = dummyNode.next;
+            while (leftHead != null && rightHead != null) {
+                if (leftHead.val != rightHead.val) {
+                    return false;
+                }
+                leftHead = leftHead.next;
+                rightHead = rightHead.next;
+            }
+            return true;
+        }
+
+        public boolean isPalindrome3(ListNode head) {
             if (head == null || head.next == null) {
                 return true;
             }

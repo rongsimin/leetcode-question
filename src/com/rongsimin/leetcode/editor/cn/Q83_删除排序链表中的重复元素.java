@@ -1,4 +1,5 @@
 package com.rongsimin.leetcode.editor.cn;
+
 //给定一个已排序的链表的头
 // head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。 
 //
@@ -35,7 +36,7 @@ package com.rongsimin.leetcode.editor.cn;
 //
 //
 //
-
+// 0406_12:18
 public class Q83_删除排序链表中的重复元素 {
     public static void main(String[] args) {
         Solution solution = new Q83_删除排序链表中的重复元素().new Solution();
@@ -55,6 +56,23 @@ public class Q83_删除排序链表中的重复元素 {
      */
     class Solution {
         public ListNode deleteDuplicates(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode slow = head;
+            ListNode fast = head.next;
+            while (fast != null) {
+                if (fast.val != slow.val) {
+                    slow.next = fast;
+                    slow = fast;
+                }
+                fast = fast.next;
+            }
+            slow.next = null;
+            return head;
+        }
+
+        public ListNode deleteDuplicates2(ListNode head) {
             ListNode dummyNode = new ListNode(1000);
             ListNode preNode = dummyNode;
             ListNode cur = head;

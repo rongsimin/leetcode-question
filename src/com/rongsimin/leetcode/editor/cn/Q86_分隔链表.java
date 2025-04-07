@@ -40,7 +40,8 @@ package com.rongsimin.leetcode.editor.cn;
 public class Q86_分隔链表 {
     public static void main(String[] args) {
         Solution solution = new Q86_分隔链表().new Solution();
-        System.out.println(solution.partition(new ListNode(new int[]{1, 4, 3, 2, 5, 2}), 3));
+        //System.out.println(solution.partition(new ListNode(new int[]{1, 4, 3, 2, 5, 2}), 3));
+        System.out.println(solution.partition(new ListNode(new int[]{1, 1}), 0));
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -56,6 +57,35 @@ public class Q86_分隔链表 {
      */
     class Solution {
         public ListNode partition(ListNode head, int x) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+
+            ListNode dummyNode = new ListNode(-1000);
+
+            ListNode ltNode = new ListNode(-2000);
+            ListNode ltNode1 = ltNode;
+            ListNode gtNode = new ListNode(2000);
+            ListNode gtNode1 = gtNode;
+            ListNode cur = head;
+            while (cur != null) {
+                if (cur.val < x) {
+                    ltNode1.next = cur;
+                    ltNode1 = ltNode1.next;
+                } else {
+                    gtNode1.next = cur;
+                    gtNode1 = gtNode1.next;
+
+                }
+                cur = cur.next;
+            }
+            gtNode1.next = null;
+            ltNode1.next = gtNode.next;
+            dummyNode.next = ltNode.next;
+            return dummyNode.next;
+        }
+
+        public ListNode partition2(ListNode head, int x) {
             ListNode dummyNodeLtX = new ListNode(-1000);
             ListNode dummyNodeGtX = new ListNode(1000);
             ListNode ltNodePre = dummyNodeLtX;

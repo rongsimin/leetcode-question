@@ -48,17 +48,32 @@ import java.util.Map;
 public class Q219_存在重复元素II {
     public static void main(String[] args) {
         Solution solution = new Q219_存在重复元素II().new Solution();
-        int[] nums = {1, 2, 3, 1, 2, 3};
+        int[] nums = new int[]{1, 2, 3, 1, 2, 3};
         int k = 2;
         System.out.println(solution.containsNearbyDuplicate(nums, k));
-        //int[] nums = {1, 2, 3, 1};
-        //int k = 3;
-        //System.out.println(solution.containsNearbyDuplicate(nums, k));
+        nums = new int[]{1, 2, 3, 1};
+        k = 3;
+        System.out.println(solution.containsNearbyDuplicate(nums, k));
+        nums = new int[]{1, 0, 1, 1};
+        k = 1;
+        System.out.println(solution.containsNearbyDuplicate(nums, k));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public boolean containsNearbyDuplicate(int[] nums, int k) {
+            // key -> num, value -> index
+            Map<Integer, Integer> distinctMap = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                Integer oldValue = distinctMap.put(nums[i], i);
+                if (oldValue != null && i - oldValue <= k) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean containsNearbyDuplicate2(int[] nums, int k) {
             // key -> num, value -> index
             Map<Integer, Integer> countMap = new HashMap<>();
             for (int i = 0; i < nums.length; i++) {

@@ -41,6 +41,7 @@ public class Q82_删除排序链表中的重复元素II {
         System.out.println(solution.deleteDuplicates(new ListNode(new int[]{1, 2, 3, 3, 4, 4, 5})));
         System.out.println(solution.deleteDuplicates(new ListNode(new int[]{1, 1, 1, 2, 3})));
         System.out.println(solution.deleteDuplicates(new ListNode(new int[]{1, 1, 1})));
+        System.out.println(solution.deleteDuplicates(new ListNode(new int[]{1, 2, 2})));
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -56,6 +57,36 @@ public class Q82_删除排序链表中的重复元素II {
      */
     class Solution {
         public ListNode deleteDuplicates(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode dummyNode = new ListNode(-1000);
+            ListNode preNode = dummyNode;
+            ListNode slow = head;
+            int slowIndex = 0;
+            ListNode fast = head.next;
+            int fastIndex = 1;
+            while (fast != null) {
+                if (slow.val != fast.val) {
+                    if (fastIndex - slowIndex == 1) {
+                        preNode.next = slow;
+                        preNode = slow;
+                    }
+                    slow = fast;
+                    slowIndex = fastIndex;
+                }
+                fast = fast.next;
+                fastIndex += 1;
+            }
+            if (fastIndex - slowIndex == 1) {
+                preNode.next = slow;
+            } else {
+                preNode.next = null;
+            }
+            return dummyNode.next;
+        }
+
+        public ListNode deleteDuplicates2(ListNode head) {
             if (head == null || head.next == null) {
                 return head;
             }

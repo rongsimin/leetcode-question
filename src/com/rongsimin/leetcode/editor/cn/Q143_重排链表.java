@@ -49,6 +49,7 @@ package com.rongsimin.leetcode.editor.cn;
 
 /**
  * 2024-12-07 22:40:22
+ * 2024-19-06 19:05:22
  **/
 public class Q143_重排链表 {
     public static void main(String[] args) {
@@ -75,7 +76,67 @@ public class Q143_重排链表 {
      * }
      */
     class Solution {
+
         public void reorderList(ListNode head) {
+            if (head == null || head.next == null) {
+                return;
+            }
+            ListNode slow = head;
+            ListNode first = slow;
+            ListNode fast = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            ListNode aa = first;
+            while (aa.next != slow) {
+                aa = aa.next;
+            }
+            aa.next = null;
+            // first 为前一段
+            // slow 为后一段
+            ListNode second = reverseList2(slow);
+            head = mergeList2(first, second);
+        }
+
+        private ListNode mergeList2(ListNode first, ListNode second) {
+            int cn = 0;
+            ListNode dummyNode = new ListNode(-1);
+            ListNode pre = dummyNode;
+            while (first != null && second != null) {
+                if (cn % 2 == 0) {
+                    pre.next = first;
+                    pre = pre.next;
+                    first = first.next;
+                } else {
+                    pre.next = second;
+                    pre = pre.next;
+                    second = second.next;
+                }
+                cn++;
+            }
+            if (first != null) {
+                pre.next = first;
+            }
+            if (second != null) {
+                pre.next = second;
+            }
+            return dummyNode.next;
+        }
+
+        private ListNode reverseList2(ListNode slow) {
+            ListNode pre = null;
+            ListNode cur = slow;
+            while (cur != null) {
+                ListNode next = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = next;
+            }
+            return pre;
+        }
+
+        public void reorderList2(ListNode head) {
             if (head == null || head.next == null) {
                 return;
             }

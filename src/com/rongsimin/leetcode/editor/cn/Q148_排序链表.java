@@ -54,6 +54,7 @@ public class Q148_排序链表 {
     public static void main(String[] args) {
         Solution solution = new Q148_排序链表().new Solution();
         System.out.println(solution.sortList(new ListNode(new int[]{4, 2, 1, 3})));
+        System.out.println(solution.sortList(new ListNode(new int[]{-1, 5, 3, 4, 0})));
         //int n = 10000;
         //int[] nums = getArrays(n);
         //sort(nums);
@@ -148,6 +149,32 @@ public class Q148_排序链表 {
      * }
      */
     class Solution {
+
+        public ListNode sortList3(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode dummyNode = new ListNode(Integer.MIN_VALUE, head);
+            ListNode sortedNode = head;
+            ListNode cur = head.next;
+            while (cur != null) {
+                if (cur.val >= sortedNode.val) {
+                    sortedNode.next = cur;
+                    sortedNode = cur;
+                    cur = cur.next;
+                } else {
+                    ListNode preNode = dummyNode;
+                    while (cur.val >= preNode.next.val) {
+                        preNode = preNode.next;
+                    }
+                    sortedNode.next = cur.next;
+                    cur.next = preNode.next;
+                    preNode.next = cur;
+                    cur = sortedNode.next;
+                }
+            }
+            return dummyNode.next;
+        }
 
         public ListNode sortList(ListNode head) {
             if (head == null || head.next == null) {

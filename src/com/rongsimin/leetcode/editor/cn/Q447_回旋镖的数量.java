@@ -49,47 +49,74 @@ package com.rongsimin.leetcode.editor.cn;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Q447_回旋镖的数量{
+public class Q447_回旋镖的数量 {
     public static void main(String[] args) {
-        //Solution solution = new Q447_回旋镖的数量().new Solution();
-        //int[][] points = {
-        //        {1,1},
-        //        {2,2},
-        //        {3,3}
-        //};
-        //System.out.println(solution.numberOfBoomerangs(points));
-        //int[][] points = {
-        //        {0,0},
-        //        {1,0},
-        //        {2,0}
-        //};
-        //System.out.println(solution.numberOfBoomerangs(points));
+        Solution solution = new Q447_回旋镖的数量().new Solution();
+        int[][] points = new int[][]{
+                {1, 1},
+                {2, 2},
+                {3, 3}
+        };
+        System.out.println(solution.numberOfBoomerangs(points));
+        points = new int[][]{
+                {0, 0},
+                {1, 0},
+                {2, 0}
+        };
+        System.out.println(solution.numberOfBoomerangs(points));
     }
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int numberOfBoomerangs(int[][] points) {
-        int res = 0;
-        for (int i = 0; i < points.length; i++) {
-            Map<Integer, Integer> countMap = new HashMap<>();
-            for (int j = 0; j < points.length; j++) {
-                if (i != j) {
-                    int distance = calcDistance(points[i], points[j]);
-                    countMap.putIfAbsent(distance, 0);
-                    countMap.put(distance, countMap.get(distance) + 1);
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+
+        public int numberOfBoomerangs(int[][] points) {
+            if (points.length < 3) {
+                return 0;
+            }
+            int total = 0;
+            for (int i = 0; i < points.length; i++) {
+                Map<Integer, Integer> pointMap = new HashMap<>();
+                for (int j = 0; j < points.length; j++) {
+                    if (i != j) {
+                        int distinct = calc2(points[i], points[j]);
+                        pointMap.put(distinct, pointMap.getOrDefault(distinct, 0) + 1);
+                    }
+                }
+                for (Integer value : pointMap.values()) {
+                    total += value * (value - 1);
                 }
             }
-            for (Integer key : countMap.keySet()) {
-                if (countMap.get(key) != 1) {
-                    res += countMap.get(key) * (countMap.get(key) - 1);
-                }
-            }
+            return total;
         }
-        return res;
+
+        private int calc2(int[] point, int[] point1) {
+            return (point1[0] - point[0]) * (point1[0] - point[0]) + (point1[1] - point[1]) * (point1[1] - point[1]);
+        }
+
+        public int numberOfBoomerangs2(int[][] points) {
+            int res = 0;
+            for (int i = 0; i < points.length; i++) {
+                Map<Integer, Integer> countMap = new HashMap<>();
+                for (int j = 0; j < points.length; j++) {
+                    if (i != j) {
+                        int distance = calcDistance(points[i], points[j]);
+                        countMap.putIfAbsent(distance, 0);
+                        countMap.put(distance, countMap.get(distance) + 1);
+                    }
+                }
+                for (Integer key : countMap.keySet()) {
+                    if (countMap.get(key) != 1) {
+                        res += countMap.get(key) * (countMap.get(key) - 1);
+                    }
+                }
+            }
+            return res;
+        }
+
+        private int calcDistance(int[] pointX, int[] pointY) {
+            return (pointY[0] - pointX[0]) * (pointY[0] - pointX[0]) + (pointY[1] - pointX[1]) * (pointY[1] - pointX[1]);
+        }
     }
-    private int calcDistance(int[] pointX, int[] pointY) {
-        return (pointY[0] - pointX[0]) * (pointY[0] - pointX[0]) + (pointY[1] - pointX[1]) * (pointY[1] - pointX[1]);
-    }
-}
 
 
 //leetcode submit region end(Prohibit modification and deletion)

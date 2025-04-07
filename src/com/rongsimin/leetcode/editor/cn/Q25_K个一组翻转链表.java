@@ -50,6 +50,8 @@ package com.rongsimin.leetcode.editor.cn;
 public class Q25_K个一组翻转链表 {
     public static void main(String[] args) {
         Solution solution = new Q25_K个一组翻转链表().new Solution();
+        System.out.println(solution.reverseKGroup(new ListNode(new int[]{1, 2, 3, 4, 5}), 2));
+        System.out.println(solution.reverseKGroup(new ListNode(new int[]{1, 2, 3, 4, 5}), 3));
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -65,6 +67,40 @@ public class Q25_K个一组翻转链表 {
      */
     class Solution {
         public ListNode reverseKGroup(ListNode head, int k) {
+            ListNode cur = head;
+            int count = 0;
+            while (cur != null) {
+                count++;
+                cur = cur.next;
+            }
+            // 总共有 group 组需要翻转，对于group组后面的元素只要拼接起来即可
+            int group = count / k;
+            ListNode dummyNode = new ListNode(-10000);
+            ListNode foreachNode = dummyNode;
+            ListNode pre = null;
+            cur = head;
+            for (int i = 0; i < group; i++) {
+                // 对第i组进行翻转，当i = 0时，是从 i 到 k - 1个元素进行翻转
+                // 对第i组进行翻转，当i = 1时，是从 k 到 2k - 1个元素进行翻转
+
+                for (int j = 0; j < k; j++) {
+                    ListNode next = cur.next;
+                    cur.next = pre;
+                    pre = cur;
+                    cur = next;
+                }
+                //System.out.println("dummyNode.next=" + dummyNode.next);
+                foreachNode.next = pre;
+                pre = null;
+                for (int j = 0; j < k; j++) {
+                    foreachNode = foreachNode.next;
+                }
+            }
+            foreachNode.next = cur;
+            return dummyNode.next;
+        }
+
+        public ListNode reverseKGroup2(ListNode head, int k) {
             // 每 k 个元素就是一组，第一个是a1,第 k 个是ak，
             // 翻转过后，ak ... a1 -> 下一组
             ListNode dummyNode = new ListNode(-1, head);
@@ -73,7 +109,7 @@ public class Q25_K个一组翻转链表 {
             int count = 0;
             while (cur != null) {
                 count = (count + 1) % k;
-                
+
             }
             return dummyNode.next;
         }

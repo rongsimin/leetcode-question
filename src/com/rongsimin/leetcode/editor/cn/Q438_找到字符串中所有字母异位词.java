@@ -42,86 +42,127 @@ package com.rongsimin.leetcode.editor.cn;
 //
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Q438_找到字符串中所有字母异位词{
+public class Q438_找到字符串中所有字母异位词 {
     public static void main(String[] args) {
         Solution solution = new Q438_找到字符串中所有字母异位词().new Solution();
-        System.out.println(solution.findAnagrams("cbaebabacd", "abc"));
+        //System.out.println(solution.findAnagrams("cbaebabacd", "abc"));
         System.out.println(solution.findAnagrams("abab", "ab"));
     }
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public List<Integer> findAnagrams(String s, String p) {
-        if (s.length() < p.length()) {
-            return new ArrayList<>();
-        }
-        List<Integer> resList = new ArrayList<>();
-        char[] pChars = p.toCharArray();
-        int[] pFreq = new int[26];
-        for (char ch : pChars) {
-            pFreq[ch - 'a']++;
-        }
-        char[] sChars = s.toCharArray();
-        int left = 0;
-        int right = 0; // [left, right] 为滑动窗口，
-        int[] sFreq = new int[26];
-        while (right < sChars.length) {
-            sFreq[sChars[right] - 'a']++;
-            if (right - left +1 > pChars.length) {
-                sFreq[sChars[left] - 'a']--;
-                left++;
-            }
-            if (right - left + 1 == pChars.length && same(sFreq, pFreq)) {
-                resList.add(left);
-                sFreq[sChars[left] - 'a']--;
-                left++;
-            }
-            right++;
-        }
-        return resList;
-    }
 
-    private boolean same(int[] sFreq, int[] pFreq) {
-        for (int i = 0; i < sFreq.length; i++) {
-            if (sFreq[i] != pFreq[i]) {
-                return false;
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public List<Integer> findAnagrams(String s, String p) {
+            if (s.length() < p.length()) {
+                return new ArrayList<>();
             }
-        }
-        return true;
-    }
+            char[] pCharArray = p.toCharArray();
+            int targetTotal = 0;
+            for (int i = 0; i < p.length(); i++) {
+                targetTotal += (p.charAt(i) - 'a');
+            }
+            Arrays.sort(pCharArray);
+            String target = new String(pCharArray);
 
-    public List<Integer> findAnagramsWrong(String s, String p) {
-        if (s.length() < p.length()) {
-            return new ArrayList<>();
-        }
-        List<Integer> resList = new ArrayList<>();
-        char[] pChars = p.toCharArray();
-        char[] sChars = s.toCharArray();
-        int left = 0;
-        int right = 0;
-        int[] freq = new int[26];
-        while (right < sChars.length) {
-            freq[sChars[right] - 'a']--;
-            freq[pChars[right % pChars.length] - 'a']++;
-            if (right - left + 1 == pChars.length && sum(freq)) {
-                resList.add(left);
-                left++;
+            List<Integer> resList = new ArrayList<>();
+            int i = 0;
+            int j = p.length();
+            int l = 0;
+            int findTotal = 0;
+            while (l < j) {
+                findTotal += (s.charAt(l) - 'a');
+                l++;
             }
-            right++;
+            while (j <= s.length()) {
+                if (findTotal == targetTotal && isSame(target, s.substring(i, j))) {
+                    resList.add(i);
+                }
+                if (j >= s.length()) {
+                    break;
+                }
+                findTotal += (s.charAt(j++) - s.charAt(i++));
+            }
+            return resList;
         }
-        return resList;
-    }
 
-    private boolean sum(int[] nums) {
-        for (int num : nums) {
-            if (num != 0) {
-                return false;
-            }
+        private boolean isSame(String target, String findStr) {
+            char[] chars = findStr.toCharArray();
+            Arrays.sort(chars);
+            return new String(chars).equals(target);
         }
-        return true;
+
+        public List<Integer> findAnagrams2(String s, String p) {
+            if (s.length() < p.length()) {
+                return new ArrayList<>();
+            }
+            List<Integer> resList = new ArrayList<>();
+            char[] pChars = p.toCharArray();
+            int[] pFreq = new int[26];
+            for (char ch : pChars) {
+                pFreq[ch - 'a']++;
+            }
+            char[] sChars = s.toCharArray();
+            int left = 0;
+            int right = 0; // [left, right] 为滑动窗口，
+            int[] sFreq = new int[26];
+            while (right < sChars.length) {
+                sFreq[sChars[right] - 'a']++;
+                if (right - left + 1 > pChars.length) {
+                    sFreq[sChars[left] - 'a']--;
+                    left++;
+                }
+                if (right - left + 1 == pChars.length && same(sFreq, pFreq)) {
+                    resList.add(left);
+                    sFreq[sChars[left] - 'a']--;
+                    left++;
+                }
+                right++;
+            }
+            return resList;
+        }
+
+        private boolean same(int[] sFreq, int[] pFreq) {
+            for (int i = 0; i < sFreq.length; i++) {
+                if (sFreq[i] != pFreq[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public List<Integer> findAnagramsWrong(String s, String p) {
+            if (s.length() < p.length()) {
+                return new ArrayList<>();
+            }
+            List<Integer> resList = new ArrayList<>();
+            char[] pChars = p.toCharArray();
+            char[] sChars = s.toCharArray();
+            int left = 0;
+            int right = 0;
+            int[] freq = new int[26];
+            while (right < sChars.length) {
+                freq[sChars[right] - 'a']--;
+                freq[pChars[right % pChars.length] - 'a']++;
+                if (right - left + 1 == pChars.length && sum(freq)) {
+                    resList.add(left);
+                    left++;
+                }
+                right++;
+            }
+            return resList;
+        }
+
+        private boolean sum(int[] nums) {
+            for (int num : nums) {
+                if (num != 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

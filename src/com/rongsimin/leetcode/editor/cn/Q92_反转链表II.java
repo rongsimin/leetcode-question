@@ -44,9 +44,9 @@ package com.rongsimin.leetcode.editor.cn;
 public class Q92_反转链表II {
     public static void main(String[] args) {
         Solution solution = new Q92_反转链表II().new Solution();
-        //ListNode listNode = new ListNode(new int[]{1, 2, 3, 4, 5});
-        //System.out.println(solution.reverseBetween(listNode, 1, 3));
         ListNode listNode = new ListNode(new int[]{1, 2, 3, 4, 5});
+        System.out.println(solution.reverseBetween(listNode, 1, 3));
+        listNode = new ListNode(new int[]{1, 2, 3, 4, 5});
         System.out.println(solution.reverseBetween(listNode, 2, 4));
     }
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -62,7 +62,30 @@ public class Q92_反转链表II {
      * }
      */
     class Solution {
+
         public ListNode reverseBetween(ListNode head, int left, int right) {
+            ListNode dummyNode = new ListNode(-1, head);
+            ListNode preLeft = dummyNode;
+            // 走 left - 1 步到达left的前一个节点
+            for (int i = 0; i < left - 1; i++) {
+                preLeft = preLeft.next;
+            }
+            // preLeft 后面没动过
+            ListNode pre = null;
+            ListNode cur = preLeft.next;
+            for (int i = left; i <= right; i++) {
+                ListNode next = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = next;
+            }
+            // 此时 pre 到达 right 节点， cur 到达 right.next 节点
+            preLeft.next.next = cur;
+            preLeft.next = pre;
+            return dummyNode.next;
+        }
+
+        public ListNode reverseBetween2(ListNode head, int left, int right) {
             ListNode leftNode = head;
             ListNode dummyNode = new ListNode(1000, leftNode);
             ListNode preNode = dummyNode;

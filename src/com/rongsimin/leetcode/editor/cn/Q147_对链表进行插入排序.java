@@ -73,7 +73,35 @@ public class Q147_对链表进行插入排序 {
      * }
      */
     class Solution {
+
         public ListNode insertionSortList(ListNode head) {
+            ListNode dummyNode = new ListNode(Integer.MIN_VALUE, head);
+            ListNode sortedNode = head;
+            ListNode cur = head.next; // cur 为待排序的节点
+            while (cur != null) {
+                if (cur.val >= sortedNode.val) {
+                    // 不需要做什么操作，只要连接起来即可
+                    sortedNode.next = cur;
+                    sortedNode = sortedNode.next;
+                    cur = cur.next;
+                } else {
+                    // 需要进行插入排序，那么就要从虚拟头结点开始，逐个进行比较，确定待插入的位置
+                    ListNode preNode = dummyNode;
+                    while (preNode.next != null && cur.val >= preNode.next.val) {
+                        preNode = preNode.next;
+                    }
+                    // cur >= preNode.val 且 cur < preNode.next.val
+                    // 需要把 cur 插入到 preNode的后面
+                    sortedNode.next = cur.next;
+                    cur.next = preNode.next;
+                    preNode.next = cur;
+                    cur = sortedNode.next;
+                }
+            }
+            return dummyNode.next;
+        }
+
+        public ListNode insertionSortList2(ListNode head) {
             ListNode dummyNode = new ListNode(Integer.MIN_VALUE, head);
             // 最后一个排好序的节点
             ListNode lastSortedNode = head;

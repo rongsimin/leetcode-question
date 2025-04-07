@@ -58,61 +58,99 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Q15_三数之和{
+public class Q15_三数之和 {
     public static void main(String[] args) {
         Solution solution = new Q15_三数之和().new Solution();
-        //int[] nums = {-1,0,1,2,-1,-4};
-        //System.out.println(solution.threeSum(nums));
-        //int[] nums = {0,1,1};
-        //System.out.println(solution.threeSum(nums));
-        int[] nums = {0,0,0};
+        int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
+        System.out.println(solution.threeSum(nums));
+        nums = new int[]{0, 1, 1};
+        System.out.println(solution.threeSum(nums));
+        nums = new int[]{0, 0, 0};
         System.out.println(solution.threeSum(nums));
     }
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> resList = new ArrayList<>();
-        Arrays.sort(nums);
-        for (int i = 0; i < nums.length - 2;) {
-            // 固定下标为 i, 再选择左右两个边界下标
-            int left = i + 1;
-            int right = nums.length - 1;
-            if (nums[i] > 0) {
-                break; // 这时候程序直接跳出循环
-            }
-            while (left < right) {
-                int total = nums[i] + nums[left] + nums[right];
-                if (total > 0) {
-                    right--;
-                    while (left < right && nums[right + 1] == nums[right]) {
-                        right--;
-                    }
-                } else if (total < 0) {
-                    left++;
-                    while (left < right && nums[left - 1] == nums[left]) {
-                        left++;
-                    }
-                } else {
-                    // 这是其中一个结果
-                    resList.add(Arrays.asList(nums[i], nums[left], nums[right]));
-                    left++;
-                    while (left < right && nums[left] == nums[left - 1]) {
-                        left++;
-                    }
-                    right--;
-                    while (left < right && nums[right + 1] == nums[right]) {
-                        right--;
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+
+        public List<List<Integer>> threeSum(int[] nums) {
+            List<List<Integer>> resList = new ArrayList<>();
+            Arrays.sort(nums);
+            for (int i = 0; i < nums.length - 2; i++) {
+                if (i != 0 && nums[i] == nums[i - 1]) continue;
+                if (nums[i] > 0) break;
+                int L = i + 1;
+                int R = nums.length - 1;
+                while (L < R) {
+                    int total = nums[i] + nums[L] + nums[R];
+                    if (total > 0) {
+                        R--;
+                        while (L < R && nums[R] == nums[R + 1]) {
+                            R--;
+                        }
+                    } else if (total < 0) {
+                        L++;
+                        while (L < R && nums[L] == nums[L - 1]) {
+                            L++;
+                        }
+                    } else {
+                        resList.add(Arrays.asList(nums[i], nums[L], nums[R]));
+                        R--;
+                        while (L < R && nums[R] == nums[R + 1]) {
+                            R--;
+                        }
+                        L++;
+                        while (L < R && nums[L] == nums[L - 1]) {
+                            L++;
+                        }
                     }
                 }
             }
-            i++;
-            while (i < nums.length - 2 && nums[i] == nums[i - 1]) {
-                i++;
-            }
+            return resList;
         }
-        return resList;
+
+        public List<List<Integer>> threeSum2(int[] nums) {
+            List<List<Integer>> resList = new ArrayList<>();
+            Arrays.sort(nums);
+            for (int i = 0; i < nums.length - 2; ) {
+                // 固定下标为 i, 再选择左右两个边界下标
+                int left = i + 1;
+                int right = nums.length - 1;
+                if (nums[i] > 0) {
+                    break; // 这时候程序直接跳出循环
+                }
+                while (left < right) {
+                    int total = nums[i] + nums[left] + nums[right];
+                    if (total > 0) {
+                        right--;
+                        while (left < right && nums[right + 1] == nums[right]) {
+                            right--;
+                        }
+                    } else if (total < 0) {
+                        left++;
+                        while (left < right && nums[left - 1] == nums[left]) {
+                            left++;
+                        }
+                    } else {
+                        // 这是其中一个结果
+                        resList.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                        left++;
+                        while (left < right && nums[left] == nums[left - 1]) {
+                            left++;
+                        }
+                        right--;
+                        while (left < right && nums[right + 1] == nums[right]) {
+                            right--;
+                        }
+                    }
+                }
+                i++;
+                while (i < nums.length - 2 && nums[i] == nums[i - 1]) {
+                    i++;
+                }
+            }
+            return resList;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

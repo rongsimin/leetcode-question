@@ -49,14 +49,42 @@ import java.util.Arrays;
 public class Q279PerfectSquares {
     public static void main(String[] args) {
         Solution solution = new Q279PerfectSquares().new Solution();
+        solution.memo = new int[14];
+        Arrays.fill(solution.memo, -1);
         //System.out.println(solution.numSquares(2));
         System.out.println(solution.numSquares(5));
+        Arrays.fill(solution.memo, -1);
         System.out.println(solution.numSquares(12));
+        Arrays.fill(solution.memo, -1);
+        System.out.println(solution.numSquares(13));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        private int[] memo;
+
+        /**
+         * 2025-02-21
+         *
+         * @param n
+         * @return
+         */
         public int numSquares(int n) {
+            if (n == 0) {
+                return 0;
+            }
+            if (memo[n] != -1) {
+                return memo[n];
+            }
+            int min = n + 1;
+            for (int i = 1; i * i <= n; i++) {
+                min = Math.min(min, 1 + numSquares(n - i * i));
+            }
+            memo[n] = min;
+            return min;
+        }
+
+        public int numSquares3(int n) {
             // 每次选择1到i的数字，那么剩下的就是n - i * i
             // 假设f(n)就是 和为n的完全平方数的最少数量
             // 那么f(n) = min(f(n - 1), f(n - 4),f (n - 9),...) + 1
@@ -66,7 +94,7 @@ public class Q279PerfectSquares {
             dp[1] = 1;
             for (int i = 2; i <= n; i++) {
                 // 从1开始往后选择，直到 j * j > i
-                for (int j = 1; j * j<= i; j++) {
+                for (int j = 1; j * j <= i; j++) {
                     dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
                 }
             }

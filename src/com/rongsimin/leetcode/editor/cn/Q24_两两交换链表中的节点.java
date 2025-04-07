@@ -44,7 +44,7 @@ package com.rongsimin.leetcode.editor.cn;
 public class Q24_两两交换链表中的节点 {
     public static void main(String[] args) {
         Solution solution = new Q24_两两交换链表中的节点().new Solution();
-        System.out.println(solution.swapPairs(new ListNode(new int[]{1, 2, 3, 4})));
+        //System.out.println(solution.swapPairs(new ListNode(new int[]{1, 2, 3, 4})));
         System.out.println(solution.swapPairs(new ListNode(new int[]{1, 2, 3, 4, 5})));
     }
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -61,6 +61,32 @@ public class Q24_两两交换链表中的节点 {
      */
     class Solution {
         public ListNode swapPairs(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode dummyNode = new ListNode(1000);
+            ListNode preNode = dummyNode;
+            ListNode one = head;
+            ListNode two = head.next;
+            while (one != null && two != null) {
+                ListNode three = two.next;
+                one.next = three;
+                two.next = one;
+
+                preNode.next = two;
+                preNode = preNode.next.next;
+                one = three;
+                if (three != null) {
+                    two = three.next;
+                } else {
+                    two = null;
+                }
+            }
+
+            return dummyNode.next;
+        }
+
+        public ListNode swapPairs2(ListNode head) {
             if (head == null || head.next == null) {
                 return head;
             }
@@ -86,7 +112,7 @@ public class Q24_两两交换链表中的节点 {
             return dummyNode.next;
         }
 
-        public ListNode swapPairs2(ListNode head) {
+        public ListNode swapPairs3(ListNode head) {
             if (head == null || head.next == null) {
                 return head;
             }

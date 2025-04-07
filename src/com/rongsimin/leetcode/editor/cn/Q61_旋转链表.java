@@ -42,6 +42,7 @@ public class Q61_旋转链表 {
     public static void main(String[] args) {
         Solution solution = new Q61_旋转链表().new Solution();
         System.out.println(solution.rotateRight(new ListNode(new int[]{1, 2, 3, 4, 5}), 2));
+        System.out.println(solution.rotateRight(new ListNode(new int[]{0, 1, 2}), 4));
     }
 
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -58,6 +59,39 @@ public class Q61_旋转链表 {
      */
     class Solution {
         public ListNode rotateRight(ListNode head, int k) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+            ListNode cur = head;
+            int count = 0;
+            while (cur != null) {
+                count++;
+                cur = cur.next;
+            }
+            k %= count;
+            if (k == 0) {
+                return head;
+            }
+            // 对于前 count - k 个节点进行截断，
+            ListNode dummyNode = new ListNode(-1, head);
+            ListNode preNode = dummyNode;
+            for (int i = 0; i < count - k; i++) {
+                preNode = preNode.next;
+            }
+            // preNode 此时，走到要分割的前一段的最后一个节点，也就是3节点
+            // 继续往后移动k次，得到最末尾的节点
+            cur = preNode.next;
+            ListNode resNode = cur;
+            preNode.next = null;
+
+            for (int i = 0; i < k - 1; i++) {
+                cur = cur.next;
+            }
+            cur.next = dummyNode.next;
+            return resNode;
+        }
+
+        public ListNode rotateRight2(ListNode head, int k) {
             if (head == null || head.next == null || k == 0) {
                 return head;
             }

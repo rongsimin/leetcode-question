@@ -57,19 +57,26 @@ import java.util.TreeSet;
 public class Q220_存在重复元素III {
     public static void main(String[] args) {
         Solution solution = new Q220_存在重复元素III().new Solution();
-        //int[] nums = {1, 5, 9, 1, 5, 9};
-        //int indexDiff = 2;
-        //int valueDiff = 3;
-        //System.out.println(solution.containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
-        int[] nums = {1, 2, 3, 1};
-        int indexDiff = 3;
-        int valueDiff = 0;
+        int[] nums = new int[]{1, 5, 9, 1, 5, 9};
+        int indexDiff = 2;
+        int valueDiff = 3;
+        System.out.println(solution.containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
+        nums = new int[]{1, 2, 3, 1};
+        indexDiff = 3;
+        valueDiff = 0;
         System.out.println(solution.containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
         public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {
+            
+
+            return false;
+        }
+
+        public boolean containsNearbyAlmostDuplicate2(int[] nums, int indexDiff, int valueDiff) {
             TreeSet<Integer> treeSet = new TreeSet<>();
             // 满足窗口大小 <= indexDiff
             // 满足差值大小 <= valueDiff

@@ -48,53 +48,78 @@ package com.rongsimin.leetcode.editor.cn;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Q3_无重复字符的最长子串{
+public class Q3_无重复字符的最长子串 {
     public static void main(String[] args) {
         Solution solution = new Q3_无重复字符的最长子串().new Solution();
         System.out.println(solution.lengthOfLongestSubstring("abcabcbb"));
         System.out.println(solution.lengthOfLongestSubstring("bbbbb"));
         System.out.println(solution.lengthOfLongestSubstring("pwwkew"));
     }
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        int lengthOfLongest = Integer.MIN_VALUE;
-        int left = 0;
-        int right = 0;// [left, right] 为最长的不重复子串，那么 right - left + 1 就是所求
-        int[] freq = new int[256];
-        while (right < s.length()) {
-            freq[s.charAt(right)]++;
-            while (freq[s.charAt(right)] >= 2) {
-                freq[s.charAt(left)]--;
-                left++;
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+
+        public int lengthOfLongestSubstring(String s) {
+            Map<Character, Integer> countMap = new HashMap<>();
+            int maxLength = Integer.MIN_VALUE;
+            int i = 0;
+            int j = 0;
+            while (i < s.length()) {
+                if (j < s.length() && !countMap.containsKey(s.charAt(j))) {
+                    countMap.put(s.charAt(j), 1);
+                    maxLength = Math.max(maxLength, j - i + 1);
+                    j++;
+                }
+                if (j == s.length()) {
+                    break;
+                }
+                while (i <= j && countMap.containsKey(s.charAt(j))) {
+                    countMap.remove(s.charAt(i));
+                    i++;
+                }
             }
-            lengthOfLongest = Math.max(lengthOfLongest, right - left + 1);
-            right++;
+            return maxLength == Integer.MIN_VALUE ? 0 : maxLength;
         }
 
-        return lengthOfLongest == Integer.MIN_VALUE ? 0 : lengthOfLongest;
-    }
-    public int lengthOfLongestSubstringOld(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-        Map<Character, Integer> countMap  = new HashMap<>();
-        int lengthOfLongest = Integer.MIN_VALUE;
-        int left = 0;
-        int right = 0;// [left, right] 为最长的不重复子串，那么 right - left + 1 就是所求
-        while (right < s.length()) {
-            while (countMap.containsKey(s.charAt(right))) {
-                countMap.remove(s.charAt(left));
-                left++;
+        public int lengthOfLongestSubstring2(String s) {
+            int lengthOfLongest = Integer.MIN_VALUE;
+            int left = 0;
+            int right = 0;// [left, right] 为最长的不重复子串，那么 right - left + 1 就是所求
+            int[] freq = new int[256];
+            while (right < s.length()) {
+                freq[s.charAt(right)]++;
+                while (freq[s.charAt(right)] >= 2) {
+                    freq[s.charAt(left)]--;
+                    left++;
+                }
+                lengthOfLongest = Math.max(lengthOfLongest, right - left + 1);
+                right++;
             }
-            countMap.put(s.charAt(right), 1);
-            lengthOfLongest = Math.max(lengthOfLongest, countMap.size());
-            right++;
+
+            return lengthOfLongest == Integer.MIN_VALUE ? 0 : lengthOfLongest;
         }
 
-        return lengthOfLongest == Integer.MIN_VALUE ? 0 : lengthOfLongest;
+        public int lengthOfLongestSubstringOld(String s) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
+            Map<Character, Integer> countMap = new HashMap<>();
+            int lengthOfLongest = Integer.MIN_VALUE;
+            int left = 0;
+            int right = 0;// [left, right] 为最长的不重复子串，那么 right - left + 1 就是所求
+            while (right < s.length()) {
+                while (countMap.containsKey(s.charAt(right))) {
+                    countMap.remove(s.charAt(left));
+                    left++;
+                }
+                countMap.put(s.charAt(right), 1);
+                lengthOfLongest = Math.max(lengthOfLongest, countMap.size());
+                right++;
+            }
+
+            return lengthOfLongest == Integer.MIN_VALUE ? 0 : lengthOfLongest;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
